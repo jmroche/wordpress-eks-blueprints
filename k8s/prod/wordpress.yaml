@@ -26,7 +26,7 @@ spec:
     matchLabels:
       app: wordpress
       tier: frontend
-  replicas: 20
+  replicas: 100
   strategy:
     type: Recreate
   template:
