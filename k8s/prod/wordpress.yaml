@@ -1,7 +1,16 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordpress
+  labels:
+    name: wordpress
+
+---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: efs-sc
+  namespace: wordpress
 provisioner: efs.csi.aws.com
 
 ---
@@ -9,6 +18,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: efs-pvc
+  namespace: wordpress
 spec:
   capacity:
     storage: 5Gi
@@ -26,6 +36,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: wordpress-pvc
+  namespace: wordpress
 spec:
   capacity:
     storage: 10Gi
@@ -43,7 +54,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: efs-storage-claim
-  namespace: default
+  namespace: wordpress
 spec:
   accessModes:
     - ReadWriteMany
@@ -57,7 +68,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wordpress-storage-claim
-  namespace: default
+  namespace: wordpress
 spec:
   accessModes:
     - ReadWriteMany
@@ -71,7 +82,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: mysql-init
-  namespace: default
+  namespace: wordpress
 data:
   mysqlInit.sh: |
      #!/bin/bash
@@ -82,6 +93,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress
+  namespace: wordpress
   labels:
     app: wordpress
 spec:
@@ -97,6 +109,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
+  namespace: wordpress
   labels:
     app: wordpress
 spec:
