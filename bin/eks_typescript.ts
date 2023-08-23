@@ -8,7 +8,7 @@ import { VPCStack } from '../lib/vpc_stack';
 
 
 
-const account = '601749221392';
+const account = '##############';
 const region = 'us-east-2';
 
 
